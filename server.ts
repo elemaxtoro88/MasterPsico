@@ -185,6 +185,7 @@ REGLA CRÍTICA: Genera un feedback empático y estrategias de afrontamiento ÚNI
 
 // Mask Reflection Analysis Route
 app.post("/api/analyze-mask", async (req, res) => {
+  console.log("POST /api/analyze-mask hit");
   const { maskTitle, maskReality, maskDefense, reflectionText } = req.body;
 
   if (!maskTitle || !reflectionText || reflectionText.trim().length < 10) {

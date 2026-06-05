@@ -30,6 +30,7 @@ interface MaskItem {
     vibrantBg: string;
     glow: string;
   };
+  image: string;
 }
 
 interface MaskAIResult {
@@ -54,7 +55,8 @@ const MASKS: MaskItem[] = [
       accent: "bg-indigo-600 text-white",
       vibrantBg: "bg-gradient-to-br from-indigo-500 to-indigo-700 text-white",
       glow: "shadow-indigo-200"
-    }
+    },
+    image: "/assets/masks/perfectionism.png"
   },
   {
     id: "complaciente",
@@ -71,7 +73,8 @@ const MASKS: MaskItem[] = [
       accent: "bg-emerald-600 text-white",
       vibrantBg: "bg-gradient-to-br from-emerald-500 to-emerald-700 text-white",
       glow: "shadow-emerald-200"
-    }
+    },
+    image: "/assets/masks/pleasing.png"
   },
   {
     id: "fuerte_aislado",
@@ -88,7 +91,8 @@ const MASKS: MaskItem[] = [
       accent: "bg-slate-700 text-white",
       vibrantBg: "bg-gradient-to-br from-slate-600 to-slate-800 text-white",
       glow: "shadow-slate-200"
-    }
+    },
+    image: "/assets/masks/invulnerability.png"
   },
   {
     id: "hiperactivo",
@@ -105,7 +109,8 @@ const MASKS: MaskItem[] = [
       accent: "bg-rose-600 text-white",
       vibrantBg: "bg-gradient-to-br from-rose-500 to-rose-700 text-white",
       glow: "shadow-rose-200"
-    }
+    },
+    image: "/assets/masks/hyperactivity.png"
   }
 ];
 
@@ -219,8 +224,18 @@ export default function EmotionalMasks({
                       </span>
                       <Smile size={16} className="text-slate-400" />
                     </div>
+
+                    {/* Mask Illustration */}
+                    <div className="w-full h-32 rounded-xl overflow-hidden bg-white border border-slate-100 shadow-inner">
+                      <img
+                        src={mask.image}
+                        alt={mask.title}
+                        className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+                      />
+                    </div>
+
                     <h3 className="text-lg font-bold text-slate-800 leading-snug">{mask.title}</h3>
-                    <p className="text-sm text-slate-600 leading-relaxed">{mask.façade}</p>
+                    <p className="text-xs text-slate-600 leading-relaxed line-clamp-2">{mask.façade}</p>
                   </div>
                   <div className="mt-4 text-xs font-bold text-indigo-600 flex items-center gap-1.5 justify-center py-2.5 bg-white/60 rounded-xl border border-dashed border-indigo-200 hover:bg-white/80 transition-colors">
                     <KeyRound size={12} /> HAZ CLIC PARA REVELAR REALIDAD
@@ -286,8 +301,8 @@ export default function EmotionalMasks({
                     type="button"
                     onClick={() => { setSelectedMaskId(m.id); setAiResult(null); setAiError(null); }}
                     className={`py-2 px-3 rounded-xl border text-xs font-bold transition-all text-left leading-tight ${selectedMaskId === m.id
-                        ? 'bg-indigo-600 border-indigo-600 text-white shadow-sm'
-                        : 'bg-white border-gray-200 text-gray-600 hover:border-gray-300'
+                      ? 'bg-indigo-600 border-indigo-600 text-white shadow-sm'
+                      : 'bg-white border-gray-200 text-gray-600 hover:border-gray-300'
                       }`}
                   >
                     {m.title}
