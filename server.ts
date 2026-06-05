@@ -224,7 +224,7 @@ Analiza clínicamente esta reflexión y responde en JSON.`,
           }
         }
       });
-      responseText = response.text || "{}";
+      responseText = response.response.text();
     } catch (geminiError: any) {
       console.warn("Gemini falló en máscara, intentando Groq...", geminiError.message);
       responseText = await callGroq(
@@ -297,7 +297,7 @@ REGLA CRÍTICA: No des el mismo consejo dos veces. Busca ángulos originales bas
           }
         }
       });
-      responseText = response.text || "{}";
+      responseText = response.response.text();
     } catch (geminiError: any) {
       console.warn("Gemini falló en reporte, intentando Groq...", geminiError.message);
       responseText = await callGroq(
@@ -369,7 +369,7 @@ Responde estrictamente en español y en formato JSON.`;
           }
         }
       });
-      responseText = response.text || "{}";
+      responseText = response.response.text();
     } catch (geminiError: any) {
       console.warn("Gemini falló en reflexión, intentando Groq...", geminiError.message);
       responseText = await callGroq(
