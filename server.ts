@@ -138,7 +138,7 @@ REGLA CRÍTICA: Genera un feedback empático y estrategias de afrontamiento ÚNI
           }
         }
       });
-      responseText = response.text || "{}";
+      responseText = response.response.text();
     } catch (geminiError: any) {
       console.warn("Gemini falló en diario, intentando Groq...", geminiError.message);
       responseText = await callGroq(
@@ -418,5 +418,13 @@ async function setupServer() {
     console.log(`Master Psico Server running on http://localhost:${PORT}`);
   });
 }
+
+// Global Error Handler
+app.use((err: any, req: any, res: any, next: any) => {
+  console.error("GLOBAL ERROR:", err);
+  if (!res.headersSent) {
+    res.status(500).json({ error: "Error interno del servidor. Por favor, intenta de nuevo." });
+  }
+});
 
 setupServer();
