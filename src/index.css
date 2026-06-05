@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .transform-style-3d {
+    transform-style: preserve-3d;
+  }
+
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out forwards;
+}
+
+/* Print Styles for PDF Generation */
+@media print {
+  @page {
+    size: A4;
+    margin: 10mm;
+  }
+
+  body {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    background: white !important;
+    font-size: 10pt;
+  }
+
+  /* Force things into one page if possible */
+  .print-one-page {
+    height: auto !important;
+    max-height: 100% !important;
+    overflow: visible !important;
+    page-break-after: avoid;
+    page-break-before: avoid;
+  }
+
+  /* Hide potential artifacts */
+  nav,
+  footer,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Prevent sections from splitting across pages */
+  section,
+  .printable-block {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin-bottom: 10px !important;
+  }
+
+  /* Adjust typography for print clarity */
+  h1 {
+    font-size: 24pt !important;
+  }
+
+  h2 {
+    font-size: 18pt !important;
+  }
+
+  h3 {
+    font-size: 14pt !important;
+  }
+
+  p,
+  span,
+  li {
+    font-size: 9pt !important;
+    line-height: 1.2 !important;
+  }
+}

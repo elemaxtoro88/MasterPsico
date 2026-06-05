@@ -1,0 +1,6 @@
+{
+  "name": "Master Psico",
+  "description": "Una avanzada plataforma de autoconocimiento y autoanálisis guiada. Incluye pruebas psicométricas estandarizadas de autoestima y ansiedad con gráficos interactivos y un diario emocional inteligente potenciado por IA.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
