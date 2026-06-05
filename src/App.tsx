@@ -129,13 +129,16 @@ export default function App() {
       {/* Top Professional Header Navigation */}
       <header className="bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => hasConsented && setActiveSection('dashboard')}>
-            <div className="p-2 bg-gradient-to-tr from-indigo-600 to-indigo-800 text-white rounded-xl">
+          <div className="flex items-center gap-3 cursor-pointer shrink-0" onClick={() => hasConsented && setActiveSection('dashboard')}>
+            <div className="p-2 bg-gradient-to-tr from-indigo-600 to-indigo-800 text-white rounded-xl shrink-0">
               <Brain size={20} className="animate-pulse" />
             </div>
-            <div>
-              <span className="text-lg font-black tracking-tight text-slate-800">Master Psico</span>
-              <span className="text-[10px] font-bold text-indigo-600 uppercase block font-mono -mt-1 tracking-wider">Autoanálisis Inteligente</span>
+            <div className="hidden sm:block">
+              <span className="text-lg font-black tracking-tight text-slate-800 whitespace-nowrap">Master Psico</span>
+              <span className="text-[10px] font-bold text-indigo-600 uppercase block font-mono -mt-1 tracking-wider whitespace-nowrap">Autoanálisis Inteligente</span>
+            </div>
+            <div className="sm:hidden">
+              <span className="text-base font-black tracking-tight text-slate-800 whitespace-nowrap">Master Psico</span>
             </div>
           </div>
 
