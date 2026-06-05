@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Brain, Heart, Zap, Sparkles, BookOpen, UserCheck, ShieldClose, Compass, LogOut, Download } from 'lucide-react';
+import { Brain, Heart, Zap, Sparkles, BookOpen, UserCheck, ShieldClose, Compass, LogOut, Download, Trash2 } from 'lucide-react';
 import { SavedResult, RosenbergAnswer, CAFEUAnswer, JournalAnalysis } from './types';
 import EthicalConsent from './components/EthicalConsent';
 import Dashboard from './components/Dashboard';
@@ -143,10 +143,10 @@ export default function App() {
           </div>
 
           {hasConsented && (
-            <div className="flex items-center gap-2 sm:gap-4">
+            <div className="flex items-center gap-1.5 sm:gap-4 overflow-x-auto no-scrollbar py-1">
               <button
                 onClick={() => setActiveSection('dashboard')}
-                className={`py-1.5 px-3 rounded-lg text-xs font-bold transition-all ${activeSection === 'dashboard'
+                className={`py-1.5 px-2.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap ${activeSection === 'dashboard'
                   ? 'bg-indigo-50 text-indigo-600'
                   : 'text-gray-500 hover:bg-slate-50'
                   }`}
@@ -155,7 +155,7 @@ export default function App() {
               </button>
               <button
                 onClick={() => setActiveSection('masks')}
-                className={`py-1.5 px-3 rounded-lg text-xs font-bold transition-all ${activeSection === 'masks'
+                className={`py-1.5 px-2.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap ${activeSection === 'masks'
                   ? 'bg-slate-800 text-white'
                   : 'text-gray-500 hover:bg-slate-50'
                   }`}
@@ -164,37 +164,39 @@ export default function App() {
               </button>
               <button
                 onClick={() => setActiveSection('reflections')}
-                className={`py-1.5 px-3 rounded-lg text-xs font-bold transition-all ${activeSection === 'reflections'
+                className={`py-1.5 px-2.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap ${activeSection === 'reflections'
                   ? 'bg-indigo-600 text-white'
                   : 'text-gray-500 hover:bg-slate-50'
                   }`}
               >
                 Reflexiones
               </button>
-              {savedResults.length > 0 && (
+
+              <div className="flex items-center gap-1 sm:ml-2 border-l pl-1 sm:pl-3 border-gray-100 shrink-0">
+                {savedResults.length > 0 && (
+                  <button
+                    onClick={() => setIsReportOpen(true)}
+                    className="p-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-all flex items-center justify-center"
+                    title="Reporte PDF"
+                  >
+                    <Download size={14} />
+                  </button>
+                )}
                 <button
-                  onClick={() => setIsReportOpen(true)}
-                  className="py-1.5 px-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold transition-all flex items-center gap-1 hover:shadow-sm cursor-pointer"
-                  title="Ver y descargar reporte PDF completo"
+                  onClick={handleResetSession}
+                  className="p-1.5 hover:bg-rose-50 text-rose-500 rounded-lg transition-all flex items-center justify-center"
+                  title="Limpiar datos"
                 >
-                  <Download size={13} />
-                  <span className="hidden md:inline">PDF</span>
+                  <Trash2 size={14} />
                 </button>
-              )}
-              <button
-                onClick={handleResetSession}
-                className="hover:bg-rose-50 text-rose-500 p-2 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5"
-                title="Limpiar diagnósticos"
-              >
-                Limpiar datos
-              </button>
-              <button
-                onClick={handleRevokeConsent}
-                className="hover:bg-slate-50 p-2 rounded-lg text-stone-400 font-bold transition-all"
-                title="Salir del portal"
-              >
-                <LogOut size={16} />
-              </button>
+                <button
+                  onClick={handleRevokeConsent}
+                  className="p-1.5 hover:bg-slate-50 text-stone-400 rounded-lg transition-all flex items-center justify-center"
+                  title="Salir"
+                >
+                  <LogOut size={14} />
+                </button>
+              </div>
             </div>
           )}
         </div>

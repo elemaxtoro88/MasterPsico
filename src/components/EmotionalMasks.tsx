@@ -147,7 +147,16 @@ export default function EmotionalMasks({
           reflectionText,
         }),
       });
-      const data = await response.json();
+
+      const responseText = await response.text();
+      let data;
+      try {
+        data = JSON.parse(responseText);
+      } catch (e) {
+        console.error("DEBUG: Respuesta cruda del servidor:", responseText);
+        throw new Error("No se pudo procesar la respuesta del servidor (JSON inválido). Revisa la consola.");
+      }
+
       if (!response.ok) throw new Error(data.error || 'Error al analizar');
       setAiResult(data);
     } catch (err: any) {

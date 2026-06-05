@@ -107,11 +107,10 @@ REGLA CRÍTICA: Genera un feedback empático y estrategias de afrontamiento ÚNI
 
     // Attempt Gemini first
     try {
-      const response = await ai.models.generateContent({
-        model: "gemini-1.5-flash",
-        contents: `Analiza psicológicamente la siguiente entrada del usuario para su autoanálisis diario:\n\n"${text}"`,
-        config: {
-          systemInstruction,
+      const model = ai.getGenerativeModel({ model: "gemini-1.5-flash", systemInstruction });
+      const result = await model.generateContent({
+        contents: [{ role: "user", parts: [{ text: `Analiza psicológicamente la siguiente entrada del usuario para su autoanálisis diario:\n\n"${text}"` }] }],
+        generationConfig: {
           responseMimeType: "application/json",
           responseSchema: {
             type: Type.OBJECT,
@@ -138,7 +137,7 @@ REGLA CRÍTICA: Genera un feedback empático y estrategias de afrontamiento ÚNI
           }
         }
       });
-      responseText = response.response.text();
+      responseText = result.response.text();
     } catch (geminiError: any) {
       console.warn("Gemini falló en diario, intentando Groq...", geminiError.message);
       responseText = await callGroq(
@@ -202,16 +201,10 @@ Tu respuesta debe ser personalizada, profunda y accionable.`;
 
     let responseText: string;
     try {
-      const response = await ai.models.generateContent({
-        model: "gemini-1.5-flash",
-        contents: `El usuario reflexiona sobre la máscara psicológica "${maskTitle}".
-Realidad interna de esta máscara: "${maskReality}"
-Mecanismo de defensa: "${maskDefense}"
-Texto de reflexión del usuario: "${reflectionText}"
-
-Analiza clínicamente esta reflexión y responde en JSON.`,
-        config: {
-          systemInstruction,
+      const model = ai.getGenerativeModel({ model: "gemini-1.5-flash", systemInstruction });
+      const result = await model.generateContent({
+        contents: [{ role: "user", parts: [{ text: `El usuario reflexiona sobre la máscara psicológica "${maskTitle}".\nRealidad interna: "${maskReality}"\nMecanismo de defensa: "${maskDefense}"\nReflexión: "${reflectionText}"` }] }],
+        generationConfig: {
           responseMimeType: "application/json",
           responseSchema: {
             type: Type.OBJECT,
@@ -224,7 +217,7 @@ Analiza clínicamente esta reflexión y responde en JSON.`,
           }
         }
       });
-      responseText = response.response.text();
+      responseText = result.response.text();
     } catch (geminiError: any) {
       console.warn("Gemini falló en máscara, intentando Groq...", geminiError.message);
       responseText = await callGroq(
@@ -281,11 +274,13 @@ REGLA CRÍTICA: No des el mismo consejo dos veces. Busca ángulos originales bas
 
     let responseText: string;
     try {
-      const response = await ai.models.generateContent({
+      const model = ai.getGenerativeModel({
         model: "gemini-1.5-flash",
-        contents: `Genera un consejo terapéutico breve y personalizado basado en este resumen de sesión psicológica:\n\n${summary}`,
-        config: {
-          systemInstruction,
+        systemInstruction
+      });
+      const response = await model.generateContent({
+        contents: [{ role: "user", parts: [{ text: `Genera un consejo terapéutico basado en este resumen:\n\n${summary}` }] }],
+        generationConfig: {
           responseMimeType: "application/json",
           responseSchema: {
             type: Type.OBJECT,
@@ -297,7 +292,7 @@ REGLA CRÍTICA: No des el mismo consejo dos veces. Busca ángulos originales bas
           }
         }
       });
-      responseText = response.response.text();
+      responseText = response.response.text().replace(/```json/g, "").replace(/```/g, "").trim();
     } catch (geminiError: any) {
       console.warn("Gemini falló en reporte, intentando Groq...", geminiError.message);
       responseText = await callGroq(
@@ -354,11 +349,13 @@ Responde estrictamente en español y en formato JSON.`;
 
     let responseText: string = "";
     try {
-      const response = await ai.models.generateContent({
+      const model = ai.getGenerativeModel({
         model: "gemini-1.5-flash",
-        contents: `El usuario completó la reflexión "${templateName}". Aquí sus respuestas:\n\n${reflectionContent}\n\nAnaliza y brinda un consejo corto.`,
-        config: {
-          systemInstruction,
+        systemInstruction
+      });
+      const response = await model.generateContent({
+        contents: [{ role: "user", parts: [{ text: `El usuario completó la reflexión "${templateName}". Respuestas:\n\n${reflectionContent}` }] }],
+        generationConfig: {
           responseMimeType: "application/json",
           responseSchema: {
             type: Type.OBJECT,
@@ -369,7 +366,7 @@ Responde estrictamente en español y en formato JSON.`;
           }
         }
       });
-      responseText = response.response.text();
+      responseText = response.response.text().replace(/```json/g, "").replace(/```/g, "").trim();
     } catch (geminiError: any) {
       console.warn("Gemini falló en reflexión, intentando Groq...", geminiError.message);
       responseText = await callGroq(
