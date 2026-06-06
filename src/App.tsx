@@ -128,78 +128,78 @@ export default function App() {
 
       {/* Top Professional Header Navigation */}
       <header className="bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
+
+        {/* ── DESKTOP: single row ── */}
+        <div className="hidden sm:flex max-w-7xl mx-auto px-6 lg:px-8 h-14 items-center justify-between">
           <div className="flex items-center gap-3 cursor-pointer shrink-0" onClick={() => hasConsented && setActiveSection('dashboard')}>
             <div className="p-2 bg-gradient-to-tr from-indigo-600 to-indigo-800 text-white rounded-xl shrink-0">
               <Brain size={20} className="animate-pulse" />
             </div>
-            <div className="hidden sm:block">
+            <div>
               <span className="text-lg font-black tracking-tight text-slate-800 whitespace-nowrap">Master Psico</span>
               <span className="text-[10px] font-bold text-indigo-600 uppercase block font-mono -mt-1 tracking-wider whitespace-nowrap">Autoanálisis Inteligente</span>
             </div>
-            <div className="sm:hidden">
-              <span className="text-base font-black tracking-tight text-slate-800 whitespace-nowrap">Master Psico</span>
-            </div>
+            <div className="hidden">{/* mobile title handled below */}</div>
           </div>
 
           {hasConsented && (
-            <div className="flex items-center gap-1.5 sm:gap-4 overflow-x-auto no-scrollbar py-1">
-              <button
-                onClick={() => setActiveSection('dashboard')}
-                className={`py-1.5 px-2.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap ${activeSection === 'dashboard'
-                  ? 'bg-indigo-50 text-indigo-600'
-                  : 'text-gray-500 hover:bg-slate-50'
-                  }`}
-              >
-                Mi Tablero
-              </button>
-              <button
-                onClick={() => setActiveSection('masks')}
-                className={`py-1.5 px-2.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap ${activeSection === 'masks'
-                  ? 'bg-slate-800 text-white'
-                  : 'text-gray-500 hover:bg-slate-50'
-                  }`}
-              >
-                Máscaras
-              </button>
-              <button
-                onClick={() => setActiveSection('reflections')}
-                className={`py-1.5 px-2.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap ${activeSection === 'reflections'
-                  ? 'bg-indigo-600 text-white'
-                  : 'text-gray-500 hover:bg-slate-50'
-                  }`}
-              >
-                Reflexiones
-              </button>
-
-              <div className="flex items-center gap-1 sm:ml-2 border-l pl-1 sm:pl-3 border-gray-100 shrink-0">
+            <div className="flex items-center gap-2">
+              <button onClick={() => setActiveSection('dashboard')} className={`py-1.5 px-3 rounded-lg text-xs font-bold transition-all ${activeSection === 'dashboard' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-500 hover:bg-slate-50'}`}>Mi Tablero</button>
+              <button onClick={() => setActiveSection('masks')} className={`py-1.5 px-3 rounded-lg text-xs font-bold transition-all ${activeSection === 'masks' ? 'bg-slate-800 text-white' : 'text-gray-500 hover:bg-slate-50'}`}>Máscaras</button>
+              <button onClick={() => setActiveSection('reflections')} className={`py-1.5 px-3 rounded-lg text-xs font-bold transition-all ${activeSection === 'reflections' ? 'bg-indigo-600 text-white' : 'text-gray-500 hover:bg-slate-50'}`}>Reflexiones</button>
+              <div className="flex items-center gap-2 ml-2 border-l pl-3 border-gray-100">
                 {savedResults.length > 0 && (
-                  <button
-                    onClick={() => setIsReportOpen(true)}
-                    className="p-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-all flex items-center justify-center"
-                    title="Reporte PDF"
-                  >
-                    <Download size={14} />
+                  <button onClick={() => setIsReportOpen(true)} className="flex items-center gap-1.5 py-1.5 px-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold transition-all">
+                    <Download size={13} /> PDF
                   </button>
                 )}
-                <button
-                  onClick={handleResetSession}
-                  className="p-1.5 hover:bg-rose-50 text-rose-500 rounded-lg transition-all flex items-center justify-center"
-                  title="Limpiar datos"
-                >
-                  <Trash2 size={14} />
+                <button onClick={handleResetSession} className="flex items-center gap-1.5 py-1.5 px-2.5 hover:bg-rose-50 text-rose-500 rounded-lg text-xs font-bold transition-all">
+                  <Trash2 size={13} /> Limpiar
                 </button>
-                <button
-                  onClick={handleRevokeConsent}
-                  className="p-1.5 hover:bg-slate-50 text-stone-400 rounded-lg transition-all flex items-center justify-center"
-                  title="Salir"
-                >
+                <button onClick={handleRevokeConsent} className="p-2 hover:bg-slate-50 text-stone-400 rounded-lg transition-all" title="Salir">
                   <LogOut size={14} />
                 </button>
               </div>
             </div>
           )}
         </div>
+
+        {/* ── MOBILE: two rows ── */}
+        <div className="sm:hidden">
+          <div className="flex items-center justify-between px-4 pt-2.5 pb-1">
+            <div className="flex items-center gap-2 cursor-pointer" onClick={() => hasConsented && setActiveSection('dashboard')}>
+              <div className="p-1.5 bg-gradient-to-tr from-indigo-600 to-indigo-800 text-white rounded-lg">
+                <Brain size={16} className="animate-pulse" />
+              </div>
+              <span className="text-sm font-black tracking-tight text-slate-800">Master Psico</span>
+            </div>
+            {hasConsented && (
+              <button onClick={handleRevokeConsent} className="p-1.5 text-stone-400 rounded-lg" title="Salir">
+                <LogOut size={15} />
+              </button>
+            )}
+          </div>
+          {hasConsented && (
+            <div className="flex items-center justify-between px-3 pb-2 gap-1">
+              <div className="flex items-center gap-0.5">
+                <button onClick={() => setActiveSection('dashboard')} className={`py-1 px-2 rounded-lg text-[11px] font-bold transition-all ${activeSection === 'dashboard' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-500'}`}>Tablero</button>
+                <button onClick={() => setActiveSection('masks')} className={`py-1 px-2 rounded-lg text-[11px] font-bold transition-all ${activeSection === 'masks' ? 'bg-slate-800 text-white' : 'text-gray-500'}`}>Máscaras</button>
+                <button onClick={() => setActiveSection('reflections')} className={`py-1 px-2 rounded-lg text-[11px] font-bold transition-all ${activeSection === 'reflections' ? 'bg-indigo-600 text-white' : 'text-gray-500'}`}>Reflexiones</button>
+              </div>
+              <div className="flex items-center gap-1.5 shrink-0">
+                {savedResults.length > 0 && (
+                  <button onClick={() => setIsReportOpen(true)} className="flex items-center gap-1 py-1 px-2.5 bg-indigo-600 text-white rounded-lg text-[11px] font-bold">
+                    <Download size={11} /> PDF
+                  </button>
+                )}
+                <button onClick={handleResetSession} className="flex items-center gap-1 py-1 px-2.5 bg-rose-50 text-rose-500 rounded-lg text-[11px] font-bold">
+                  <Trash2 size={11} /> Limpiar
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
       </header>
 
       {/* Main Container Workspace */}
