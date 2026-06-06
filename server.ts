@@ -104,10 +104,10 @@ REGLA CRÍTICA: Genera un feedback empático y estrategias de afrontamiento ÚNI
     console.log("Starting Journal Analysis...");
     try {
       const client = getGemini();
-      console.log("Client initialized, calling Gemini...");
-      const response = await client.models.generateContent({
+      console.log("Client initialized, calling Gemini (v2 SDK)...");
+      const result = await client.models.generateContent({
         model: "gemini-1.5-flash",
-        contents: `Analiza psicológicamente la siguiente entrada del usuario para su autoanálisis diario:\n\n"${text}"`,
+        contents: `Analiza psicológicamente la siguiente entrada del usuario:\n\n"${text}"`,
         config: {
           systemInstruction,
           responseMimeType: "application/json",
@@ -136,12 +136,20 @@ REGLA CRÍTICA: Genera un feedback empático y estrategias de afrontamiento ÚNI
           }
         }
       });
-      console.log("Gemini response received.");
-      responseText = response.text || "{}";
-      if (!response.text) {
-        console.warn("Gemini returned empty text, trying fallback.");
-        throw new Error("Empty response from Gemini");
+
+      console.log("Gemini raw response keys:", Object.keys(result));
+      responseText = result.text || "{}";
+
+      if (!result.text) {
+        console.warn("Gemini result.text was empty. Checking candidates...");
+        if (result.candidates && result.candidates[0]?.content?.parts && result.candidates[0].content.parts[0]?.text) {
+          responseText = result.candidates[0].content.parts[0].text;
+          console.log("Manual extraction from candidates successful.");
+        } else {
+          throw new Error("No se pudo obtener texto de Gemini.");
+        }
       }
+      console.log("Final response text ready for parsing.");
     } catch (geminiError: any) {
       console.warn("Gemini falló en diario, intentando Groq...", geminiError.message);
       responseText = await callGroq(
