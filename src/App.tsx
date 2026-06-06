@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Brain, Heart, Zap, Sparkles, BookOpen, UserCheck, ShieldClose, Compass, LogOut, Download, Trash2 } from 'lucide-react';
+import { Brain, Heart, Zap, Sparkles, BookOpen, UserCheck, ShieldClose, Compass, LogOut, Download, Trash2, Sun, Moon } from 'lucide-react';
 import { SavedResult, RosenbergAnswer, CAFEUAnswer, JournalAnalysis } from './types';
 import EthicalConsent from './components/EthicalConsent';
 import Dashboard from './components/Dashboard';
@@ -17,6 +17,21 @@ import ReportViewer from './components/ReportViewer';
 
 export default function App() {
   const [hasConsented, setHasConsented] = useState<boolean>(false);
+  const [isDark, setIsDark] = useState<boolean>(() => {
+    return localStorage.getItem('mp_theme') === 'dark';
+  });
+
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('mp_theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('mp_theme', 'light');
+    }
+  }, [isDark]);
+
+  const toggleTheme = () => setIsDark(prev => !prev);
 
   const [userName, setUserName] = useState<string>('');
 
@@ -148,11 +163,20 @@ export default function App() {
               <button onClick={() => setActiveSection('masks')} className={`py-1.5 px-3 rounded-lg text-xs font-bold transition-all ${activeSection === 'masks' ? 'bg-slate-800 text-white' : 'text-gray-500 hover:bg-slate-50'}`}>Máscaras</button>
               <button onClick={() => setActiveSection('reflections')} className={`py-1.5 px-3 rounded-lg text-xs font-bold transition-all ${activeSection === 'reflections' ? 'bg-indigo-600 text-white' : 'text-gray-500 hover:bg-slate-50'}`}>Reflexiones</button>
               <div className="flex items-center gap-2 ml-2 border-l pl-3 border-gray-100">
-                {savedResults.length > 0 && (
-                  <button onClick={() => setIsReportOpen(true)} className="flex items-center gap-1.5 py-1.5 px-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold transition-all">
-                    <Download size={13} /> PDF
-                  </button>
-                )}
+                <button
+                  onClick={() => setIsReportOpen(true)}
+                  className="flex items-center gap-1.5 py-1.5 px-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold transition-all"
+                  title="Descargar informe PDF"
+                >
+                  <Download size={13} /> PDF
+                </button>
+                <button
+                  onClick={toggleTheme}
+                  className="p-2 hover:bg-slate-100 text-slate-500 rounded-lg transition-all"
+                  title={isDark ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'}
+                >
+                  {isDark ? <Sun size={15} /> : <Moon size={15} />}
+                </button>
                 <button onClick={handleResetSession} className="flex items-center gap-1.5 py-1.5 px-2.5 hover:bg-rose-50 text-rose-500 rounded-lg text-xs font-bold transition-all">
                   <Trash2 size={13} /> Limpiar
                 </button>
@@ -173,11 +197,20 @@ export default function App() {
               </div>
               <span className="text-sm font-black tracking-tight text-slate-800">Master Psico</span>
             </div>
-            {hasConsented && (
-              <button onClick={handleRevokeConsent} className="p-1.5 text-stone-400 rounded-lg" title="Salir">
-                <LogOut size={15} />
+            <div className="flex items-center gap-1">
+              <button
+                onClick={toggleTheme}
+                className="p-1.5 text-slate-500 rounded-lg transition-all"
+                title={isDark ? 'Tema claro' : 'Tema oscuro'}
+              >
+                {isDark ? <Sun size={15} /> : <Moon size={15} />}
               </button>
-            )}
+              {hasConsented && (
+                <button onClick={handleRevokeConsent} className="p-1.5 text-stone-400 rounded-lg" title="Salir">
+                  <LogOut size={15} />
+                </button>
+              )}
+            </div>
           </div>
           {hasConsented && (
             <div className="flex items-center justify-between px-3 pb-2 gap-1">
@@ -187,11 +220,20 @@ export default function App() {
                 <button onClick={() => setActiveSection('reflections')} className={`py-1 px-2 rounded-lg text-[11px] font-bold transition-all ${activeSection === 'reflections' ? 'bg-indigo-600 text-white' : 'text-gray-500'}`}>Reflexiones</button>
               </div>
               <div className="flex items-center gap-1.5 shrink-0">
-                {savedResults.length > 0 && (
-                  <button onClick={() => setIsReportOpen(true)} className="flex items-center gap-1 py-1 px-2.5 bg-indigo-600 text-white rounded-lg text-[11px] font-bold">
-                    <Download size={11} /> PDF
-                  </button>
-                )}
+                <button
+                  onClick={() => setIsReportOpen(true)}
+                  className="flex items-center gap-1 py-1 px-2.5 bg-indigo-600 text-white rounded-lg text-[11px] font-bold"
+                  title="Descargar informe PDF"
+                >
+                  <Download size={11} /> PDF
+                </button>
+                <button
+                  onClick={toggleTheme}
+                  className="p-1.5 text-slate-500 rounded-lg transition-all"
+                  title={isDark ? 'Tema claro' : 'Tema oscuro'}
+                >
+                  {isDark ? <Sun size={13} /> : <Moon size={13} />}
+                </button>
                 <button onClick={handleResetSession} className="flex items-center gap-1 py-1 px-2.5 bg-rose-50 text-rose-500 rounded-lg text-[11px] font-bold">
                   <Trash2 size={11} /> Limpiar
                 </button>

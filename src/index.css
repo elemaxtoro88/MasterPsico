@@ -1,5 +1,146 @@
 @import "tailwindcss";
 
+/* ── Dark Mode Overrides ── */
+.dark {
+  color-scheme: dark;
+}
+
+.dark body,
+.dark #master-psico-app {
+  background-color: #0f172a !important;
+  color: #e2e8f0 !important;
+}
+
+/* Header */
+.dark header {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+.dark header .text-slate-800 {
+  color: #f1f5f9 !important;
+}
+
+.dark header .text-gray-500 {
+  color: #94a3b8 !important;
+}
+
+.dark header .text-stone-400 {
+  color: #94a3b8 !important;
+}
+
+.dark header .hover\:bg-slate-50:hover {
+  background-color: #334155 !important;
+}
+
+.dark header .border-gray-100 {
+  border-color: #334155 !important;
+}
+
+/* Cards & Panels */
+.dark .bg-white {
+  background-color: #1e293b !important;
+  color: #e2e8f0 !important;
+}
+
+.dark .bg-slate-50 {
+  background-color: #0f172a !important;
+}
+
+.dark .bg-gray-50 {
+  background-color: #1e293b !important;
+}
+
+.dark .bg-gray-100 {
+  background-color: #334155 !important;
+}
+
+.dark .text-slate-800 {
+  color: #f1f5f9 !important;
+}
+
+.dark .text-slate-700 {
+  color: #e2e8f0 !important;
+}
+
+.dark .text-slate-600 {
+  color: #cbd5e1 !important;
+}
+
+.dark .text-slate-500 {
+  color: #94a3b8 !important;
+}
+
+.dark .text-slate-400 {
+  color: #64748b !important;
+}
+
+.dark .text-gray-700 {
+  color: #e2e8f0 !important;
+}
+
+.dark .text-gray-600 {
+  color: #cbd5e1 !important;
+}
+
+.dark .text-gray-500 {
+  color: #94a3b8 !important;
+}
+
+.dark .text-gray-400 {
+  color: #64748b !important;
+}
+
+.dark .text-stone-600 {
+  color: #cbd5e1 !important;
+}
+
+.dark .text-stone-500 {
+  color: #94a3b8 !important;
+}
+
+/* Borders */
+.dark .border-gray-100 {
+  border-color: #334155 !important;
+}
+
+.dark .border-gray-200 {
+  border-color: #334155 !important;
+}
+
+.dark .border-slate-100 {
+  border-color: #334155 !important;
+}
+
+.dark .border-slate-200 {
+  border-color: #475569 !important;
+}
+
+/* Shadows & rings */
+.dark .shadow-sm {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Footer */
+.dark footer {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+/* Inputs & textareas */
+.dark input,
+.dark textarea,
+.dark select {
+  background-color: #0f172a !important;
+  color: #e2e8f0 !important;
+  border-color: #475569 !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #475569 !important;
+}
+
 @layer utilities {
   .perspective-1000 {
     perspective: 1000px;
