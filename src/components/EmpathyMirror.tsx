@@ -113,7 +113,14 @@ export default function EmpathyMirror({ onSaveAnalysis, onBackToDashboard }: Emp
         throw new Error(errorData.error || "Falla en el servidor backend.");
       }
 
-      const result: JournalAnalysis = await response.json();
+      const responseText = await response.text();
+      let result: JournalAnalysis;
+      try {
+        result = JSON.parse(responseText);
+      } catch (e) {
+        console.error("DEBUG: Respuesta cruda del servidor:", responseText);
+        throw new Error("El servidor devolvió un formato inválido. Revisa la consola del navegador.");
+      }
       setAnalysisResult(result);
     } catch (err: any) {
       const message: string = err?.message || "Error desconocido al contactar el servidor.";
